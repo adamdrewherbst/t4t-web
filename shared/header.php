@@ -1,0 +1,29 @@
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/jquery-validation/dist/jquery.validate.js"></script>
+<script type="text/javascript" src="/jquery-validation/dist/additional-methods.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+<script type="text/javascript" src="/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+
+<script type="text/javascript">
+	type = '<?=$type?>';
+</script>
+
+<script type="text/javascript" src="/shared/misc.js"></script>
+
+<? if(isset($interactive)) { ?>
+<script type="text/javascript" src="/shared/interactive.js"></script>
+<? } ?>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">-->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css">
+<link rel="stylesheet" href="/shared/style.css">
+
+<?
+extract($_GET);
+if(!isset($source)) $source = 'register';
+?>
+
+<input type="hidden" name="source" value="<?=$source?>">
