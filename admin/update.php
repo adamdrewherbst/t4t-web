@@ -4,7 +4,8 @@ extract($_POST);
 if($open == 'true') {
 
 //validate username/password
-$db = new mysqli('localhost', 't4torg_t4torg', '4v@[S1A9P8', 't4torg_t4torg');
+require_once('defines.php');
+$db = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
 if($db->connect_errno) {
 	echo json_encode(array('success' => false, 'error' => 'DB_CONNECT'));
 	exit();
