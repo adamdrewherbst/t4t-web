@@ -1,0 +1,41 @@
+body {
+	text-align: center;
+	padding: 30px 0;
+}
+
+.hidden {
+	display: none;
+}
+.shown {
+	display: block;
+}
+
+#status-msg {
+	font-size: 24px;
+}
+
+#open-wrapper {
+	display: none;
+	position: absolute;
+	top: 0; left: 0; bottom: 0; right: 0;
+	text-align: center;
+	white-space: nowrap;
+}
+
+#open-wrapper:before {
+	content: '';
+	display: inline-block;
+	height: 100%;
+	vertical-align: middle;
+	margin-right: -0.25em;
+}
+
+#open-form-wrapper {
+	z-index: 100;
+	width: 400px;
+	height: auto;
+	background-color: #66aa44;
+	border-radius: 25px;
+	display: inline-block;
+	vertical-align: middle;
+}

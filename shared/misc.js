@@ -3,7 +3,7 @@ var source = '';
 switch(type) {
 	case 'member': scriptID = 'AKfycbwNkEBsEMvJ4GTUNSL8vdQzkjDdeGLxu8Gsszceb7eS5AET7UFP'; break;
 	case 'donor': scriptID = 'AKfycbx6Cg4w_GCxV6yhZLg2I4j_aTqk9pcO7SS0h90ppUMzV8WmMLo5'; break;
-	default: break;
+	default: scriptID = ''; break;
 }
 var endpoint = 'https://script.google.com/macros/s/' + scriptID + '/exec';
 var $overlay = $();
@@ -110,6 +110,9 @@ $(document).ready(function() {
 	
 	$('div.date').datetimepicker({
 		format: 'M/D/YYYY',
+	});
+	$('div.datetime').datetimepicker({
+		format: 'M/D/YYYY h:mm A',
 	});
 	$('input[name=Date]').val(new Date().toLocaleDateString());
 
