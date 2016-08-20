@@ -16,7 +16,7 @@
 </div>
 
 <div id="search-results" class="page-section">
-	<div id="result-wrapper">
+	<div id="result-wrapper" class="list-wrapper">
 		<label for="result-list">Search Results:</label>
 		<div id="result-list"></div>
 	</div>
@@ -36,6 +36,12 @@
 			case 'donor':
 				$actions['newEntry'] = 'Add Donation';
 				$actions['generateReceipt'] = 'Generate Receipt';
+				break;
+			case 'order':
+				unset($actions['newEntry']);
+				unset($actions['viewLog']);
+				$actions['viewItems'] = 'View Itemized';
+				$actions['generateInvoice'] = 'Generate Invoice';
 				break;
 			default: break;
 		}

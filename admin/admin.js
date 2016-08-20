@@ -5,8 +5,10 @@ function submitForm(form) {
 	var isOpen = $(form).attr('id') == 'open-form';
 	var data = getFormData(form);
 	data.open = isOpen;
-	data.start = new Date(data.start).getTime();
-	data.end = new Date(data.end).getTime();
+	if(isOpen) {
+		data.start = new Date(data.start).getTime();
+		data.end = new Date(data.end).getTime();
+	}
 	console.log('updating:');
 	console.info(data);
 	
@@ -24,11 +26,11 @@ function updateStatus(data) {
 		success: function(data) {
 			if(data.success) {
 				updateStatusMessage(data.fields);
-				toggleOpenForm(false);
+				togglePopups(false);
 			} else {
 				switch(data.error) {
 					case 'DB_CONNECT':
-						toggleOpenForm(false);
+						togglePopups(false);
 						alert("Can't connect to the database right now...");
 						break;
 					case 'NO_SUCH_USER':
@@ -49,21 +51,29 @@ function updateStatus(data) {
 	});
 }
 
-function toggleOpenForm(show) {
+function togglePopups(show) {
+	togglePopup('open', show);
+	togglePopup('close', show);
+}
+
+function togglePopup(id, show) {
 	if(show) {
-		clearForm('open-form');
-		var today = Date.now(), start = moment(today - today%300000 + 300000);
-		var startStr = start.format('M/D/YYYY h:mm A');
-		$('#open-form input[name=start]').val(startStr);
-		var end = moment(start.valueOf() + 3600000);
-		var endStr = end.format('M/D/YYYY h:mm A');
-		$('#open-form input[name=end]').val(endStr);
+		clearForm(id + '-form');
+		
+		if(id == 'open') {
+			var today = Date.now(), start = moment(today - today%300000 + 300000);
+			var startStr = start.format('M/D/YYYY h:mm A');
+			$('#open-form input[name=start]').val(startStr);
+			var end = moment(start.valueOf() + 3600000);
+			var endStr = end.format('M/D/YYYY h:mm A');
+			$('#' + id + '-form input[name=end]').val(endStr);
+		}
 	
-		$('#open-wrapper').show();
+		$('#' + id + '-wrapper').show();
 		$('#overlay').show();
 		$('#overlay-spinner').hide();
 	} else {
-		$('#open-wrapper').hide();
+		$('#' + id + '-wrapper').hide();
 		$('#overlay').hide();
 		$('#overlay-spinner').show();
 	}

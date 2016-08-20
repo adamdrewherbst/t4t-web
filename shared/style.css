@@ -19,7 +19,7 @@ body {
 #search-results {
 	margin: 20px 0px;
 }
-#result-wrapper {
+.list-wrapper {
 	padding: 15px;
 	border-radius: 15px;
 	background-color: #eedddd;

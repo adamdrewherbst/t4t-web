@@ -3,6 +3,7 @@ var source = '';
 switch(type) {
 	case 'member': scriptID = 'AKfycbwNkEBsEMvJ4GTUNSL8vdQzkjDdeGLxu8Gsszceb7eS5AET7UFP'; break;
 	case 'donor': scriptID = 'AKfycbx6Cg4w_GCxV6yhZLg2I4j_aTqk9pcO7SS0h90ppUMzV8WmMLo5'; break;
+	case 'order': scriptID = 'AKfycbwvVU0gACktGPgO5C_gt9bsGVuYZBwCEWZ9rjOfycGOmT7b-uw'; break;
 	default: scriptID = ''; break;
 }
 var endpoint = 'https://script.google.com/macros/s/' + scriptID + '/exec';
@@ -73,13 +74,17 @@ function clearForm(form) {
 
 function getFormData(form) {
 	var data = {};
-	$('input', form).each(function() {
+	$('input,select', form).each(function() {
 		var $this = $(this), name = $this.attr('name'), unselected = $this.attr('type') == 'radio' && !$this.is(':checked');
+		if(typeof name == 'string' && name.endsWith('[]')) {
+			var ind = 0, newName = '';
+			do {
+				newName = name.replace('[]', '[' + ind + ']');
+				ind++;
+			} while(data.hasOwnProperty(newName));
+			name = newName;
+		}
 		if(name && !unselected) data[name] = $this.val();
-	});
-	$('select', form).each(function() {
-		var $this = $(this), name = $this.attr('name');
-		if(name) data[name] = $this.val();
 	});
 	return data;
 }

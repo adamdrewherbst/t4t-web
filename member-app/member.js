@@ -13,13 +13,13 @@ function submitForm(form) {
 	if(!$(form).valid()) return;
 	
 	//make sure we are not overdrawing a membership
-	if(form.id == 'checkout-form') {
-		var memberId = $('#checkout-form input[name="Record ID"]').val();
+	if(form.id == 'entry-form') {
+		var memberId = $('#entry-form input[name="Record ID"]').val();
 		if(memberId) {
 			var json = $('#result-info').find('input[name="record-' + memberId + '"]').val();
 			var member = JSON.parse(decodeURIComponent(json));
 			var balance = parseInt(member['Units Remaining']) || 0,
-				debit = parseInt($('#checkout-form input[name="Units Taken Today"]').val());
+				debit = parseInt($('#entry-form input[name="Units Taken Today"]').val());
 			if(debit > balance) {
 				message("You can only take up to " + balance + " units without adding to your balance.");
 				return;

@@ -57,10 +57,14 @@ function selectRecord(option) {
 		case 'member':
 			msg = recordStr + ' has ' + (record['Units Remaining'] || '0') + ' units remaining.', alert = '';
 			var expiration = record['Expiration Date'], expired = expiration && new Date(expiration) < new Date();
-			if(expired) msg = 'Membership for ' + recordStr + ' expired on ' + expiration + '.';
-			else if(expiration) msg += "<p>Membership expires on " + new Date(expiration).toLocaleDateString();
+			if(expired) {
+				//msg = 'Membership for ' + recordStr + ' expired on ' + expiration + '.';
+				alert = 'Membership expired on ' + new Date(expiration).toLocaleDateString() + '; please use remaining units ASAP!';
+			} else if(expiration) {
+				msg += "<p>Membership expires on " + new Date(expiration).toLocaleDateString();
+			}
 			var empty = !record['Units Remaining'] || parseInt(record['Units Remaining']) <= 0;
-			if(expired || empty) {
+			if(empty) {
 				alert = 'Please add credit to your record before purchasing material.';
 				$('#newEntry-button').attr('disabled', true);
 			}
@@ -92,6 +96,13 @@ function selectRecord(option) {
 	}
 }
 
+function getSelectedRecord() {
+	var id = $('#result-list [checked]').val();
+	var json = $('#result-info').find('input[name="' + id + '"]').val();
+	var record = JSON.parse(decodeURIComponent(json)), recordStr = recordString(record);
+	console.info(record);
+}
+
 function recordAction(action) {
 	var sectionId = '';
 	if(action == 'receipt') {
@@ -109,6 +120,8 @@ function recordAction(action) {
 		case 'generateReceipt': generateReceipt();
 		case 'sendReceipt': sendReceipt();
 		case 'viewLog': viewLog();
+		case 'viewItems': viewItemized();
+		case 'generateInvoice': generateInvoice();
 		default: break;
 	}
 	if(sectionId) {

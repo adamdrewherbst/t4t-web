@@ -16,17 +16,17 @@ function submitForm(form) {
 			switch(data.action) {
 				case 'newEntry':
 					displaySearchResults(result.records);
-					selectRecord(result.records[0]['Donor ID']);
+					selectRecord(result.records[0]['Record ID']);
 					message('The donation has been recorded');
 					break;
 				case 'updateInfo':
 					displaySearchResults(result.records);
-					selectRecord(result.records[0]['Donor ID']);
+					selectRecord(result.records[0]['Record ID']);
 					message('The information has been updated');
 					break;
 				case 'newRecord':
 					displaySearchResults(result.records);
-					selectRecord(result.records[0]['Donor ID']);
+					selectRecord(result.records[0]['Record ID']);
 					message('The donor has been created');
 					break;
 				default:

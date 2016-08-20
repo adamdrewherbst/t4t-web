@@ -1,10 +1,8 @@
 <?
 extract($_POST);
 
-if($open == 'true') {
-
 //validate username/password
-require_once('defines.php');
+include('defines.php');
 $db = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
 if($db->connect_errno) {
 	echo json_encode(array('success' => false, 'error' => 'DB_CONNECT'));
@@ -31,8 +29,6 @@ if($users) {
 if(!$match) {
 	echo json_encode(array('success' => false, 'error' => 'NO_SUCH_USER'));
 	exit();
-}
-
 }
 
 $lines = array();

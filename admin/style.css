@@ -14,7 +14,7 @@ body {
 	font-size: 24px;
 }
 
-#open-wrapper {
+.popup-outer-wrapper {
 	display: none;
 	position: absolute;
 	top: 0; left: 0; bottom: 0; right: 0;
@@ -22,7 +22,7 @@ body {
 	white-space: nowrap;
 }
 
-#open-wrapper:before {
+.popup-outer-wrapper:before {
 	content: '';
 	display: inline-block;
 	height: 100%;
@@ -30,7 +30,7 @@ body {
 	margin-right: -0.25em;
 }
 
-#open-form-wrapper {
+.popup-inner-wrapper {
 	z-index: 100;
 	width: 400px;
 	height: auto;
