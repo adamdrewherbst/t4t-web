@@ -5,8 +5,6 @@
 		$interactive = 1;
 		include_once('../shared/header.php');
 		?>
-
-		<script type="text/javascript" src="donor.js"></script>
 	</head>
 	<body>
 		<div id="wrapper">
@@ -15,10 +13,7 @@
 		</div>
 		</div>
 
-		<div id="overlay">
-			<div id="overlay-align">
-			</div><i id="overlay-spinner" class="fa fa-spinner fa-spin fa-5x"></i>
-		</div>
+		<? overlay(); ?>
 
 		<iframe src="" id="hiddenFrm" style="display:none;" frameborder="0"></iframe>
 	</body>

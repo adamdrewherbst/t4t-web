@@ -98,3 +98,8 @@ label.invalid {
 #record-log button {
 	margin: 20px auto auto;
 }
+
+.multiple-delete {
+	display: inline-block;
+	color: #aa0000;
+}

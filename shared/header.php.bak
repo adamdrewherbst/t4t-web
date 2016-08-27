@@ -5,20 +5,21 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
 <script type="text/javascript" src="/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
 
-<script type="text/javascript" src="/shared/form.js"></script>
+<script type="text/javascript">
+	type = '<?=$type?>';
+</script>
+
+<script type="text/javascript" src="/shared/misc.js"></script>
 
 <? if(isset($interactive)) { ?>
 <script type="text/javascript" src="/shared/interactive.js"></script>
 <? } ?>
-
-<script type="text/javascript" src="main.js"></script>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">-->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css">
 <link rel="stylesheet" href="/shared/style.css">
-<link rel="stylesheet" href="main.css">
 
 <?
 extract($_GET);

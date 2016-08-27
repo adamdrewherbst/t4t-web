@@ -1,11 +1,11 @@
 <div id="record-info" class="page-section record-action">
-<form id="record-form" action="javascript:void(0)" onsubmit="submitForm(this)">
+<form id="record-form" action="javascript:void(0)">
 	
 	<input type="hidden" name="action" value="updateInfo">
 	<input type="hidden" name="Record ID">
 
-	<? include('../shared/site_field.php'); ?>	
-	<? include('../shared/date_field.php'); ?>
+	<? site_field(); ?>
+	<? date_field(); ?>
 	
 	<label for="Organization">Organization Name</label>
 	<input type="text" class="form-control" name="Organization" placeholder="Your organization..." required>

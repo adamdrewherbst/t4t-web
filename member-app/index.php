@@ -5,7 +5,6 @@
 		$interactive = 1;
 		include_once('../shared/header.php');
 		?>
-		<script type="text/javascript" src="member.js"></script>
 	</head>
 	<body>
 		<div id="wrapper">
@@ -16,11 +15,11 @@
 			?>
 
 			<div id="payment-info" class="page-section record-action">
-			<form id="payment-form" action="javascript:void(0)" onsubmit="submitForm(this)">
+			<form id="payment-form" action="javascript:void(0)">
 				<input type="hidden" name="action" value="addUnits">
 				<input type="hidden" name="Record ID">
 				
-				<? include('../shared/date_field.php'); ?>
+				<? date_field(); ?>
 
 				<div class="form-group" style="margin-left: 20px">
 					<label class="radio">
@@ -62,6 +61,6 @@
 		</div>
 		</div>
 
-		<? include_once('../shared/overlay.php'); ?>
+		<? overlay(); ?>
 	</body>
 </html>

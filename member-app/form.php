@@ -4,13 +4,13 @@ if(!isset($type)) $type = 'personal';
 ?>
 
 <div id="record-info" class="page-section record-action">
-<form id="record-form" action="javascript:void(0)" onsubmit="submitForm(this)">
+<form id="record-form" action="javascript:void(0)">
 	
 	<input type="hidden" name="action" value="<?=$action?>">
 	<input type="hidden" name="Record ID">
 
-	<? include('../shared/site_field.php'); ?>	
-	<? include('../shared/date_field.php'); ?>
+	<? site_field(); ?>
+	<? date_field(); ?>
 	
 	<label for="Membership Type">Membership Type</label>
 	<select class="form-control" name="Membership Type">

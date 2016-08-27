@@ -1,9 +1,25 @@
-function submitForm(form) {
+var Admin = function() {
+	Form.call(this);
+};
+Admin.prototype = Object.create(Form.prototype);
+
+Admin.prototype.init = function() {
+	Form.prototype.init.call(this);
+	var caller = this;
+	$('.toggle-popup').click(function(e) {
+		var $this = $(e.target);
+		console.info($this);
+		var id = $this.attr('id').split('-');
+		caller.togglePopup(id[0], id[1] == 'show');
+	});
+};
+
+Admin.prototype.submitForm = function(form) {
 
 	if(!$(form).valid()) return;
 	
 	var isOpen = $(form).attr('id') == 'open-form';
-	var data = getFormData(form);
+	var data = this.getFormData(form);
 	data.open = isOpen;
 	if(isOpen) {
 		data.start = new Date(data.start).getTime();
@@ -12,12 +28,13 @@ function submitForm(form) {
 	console.log('updating:');
 	console.info(data);
 	
-	updateStatus(data);
-}
+	this.updateStatus(data);
+};
 
-function updateStatus(data) {
+Admin.prototype.updateStatus = function(data) {
 	if(!data) data = {open: false};
 	
+	var caller = this;
 	$.ajax({
 		url: 'update.php',
 		method: 'POST',
@@ -25,12 +42,12 @@ function updateStatus(data) {
 		data: data,
 		success: function(data) {
 			if(data.success) {
-				updateStatusMessage(data.fields);
-				togglePopups(false);
+				caller.updateStatusMessage(data.fields);
+				caller.togglePopups(false);
 			} else {
 				switch(data.error) {
 					case 'DB_CONNECT':
-						togglePopups(false);
+						caller.togglePopups(false);
 						alert("Can't connect to the database right now...");
 						break;
 					case 'NO_SUCH_USER':
@@ -51,14 +68,14 @@ function updateStatus(data) {
 	});
 }
 
-function togglePopups(show) {
-	togglePopup('open', show);
-	togglePopup('close', show);
+Admin.prototype.togglePopups = function(show) {
+	this.togglePopup('open', show);
+	this.togglePopup('close', show);
 }
 
-function togglePopup(id, show) {
+Admin.prototype.togglePopup = function(id, show) {
 	if(show) {
-		clearForm(id + '-form');
+		this.clearForm(id + '-form');
 		
 		if(id == 'open') {
 			var today = Date.now(), start = moment(today - today%300000 + 300000);
@@ -79,11 +96,11 @@ function togglePopup(id, show) {
 	}
 }
 
-function timeStr(epoch) {
+Admin.prototype.timeStr = function(epoch) {
 	return moment(parseInt(epoch)).format('h:mmA');
 }
 
-function updateStatusMessage(data) {
+Admin.prototype.updateStatusMessage = function(data) {
 	var $msg = $('#status-msg');
 	var today = Date.now();
 	if(data.open && parseInt(data.end) > today) {
@@ -95,9 +112,9 @@ function updateStatusMessage(data) {
 			default: break;
 		}
 		if(data.start > today) {
-			$msg.text('T4T will be open for ' + type + ' from ' + timeStr(data.start) + ' to ' + timeStr(data.end));
+			$msg.text('T4T will be open for ' + type + ' from ' + this.timeStr(data.start) + ' to ' + this.timeStr(data.end));
 		} else {
-			$msg.text('T4T is open for ' + type + ' until ' + timeStr(data.end));
+			$msg.text('T4T is open for ' + type + ' until ' + this.timeStr(data.end));
 		}
 		$('#open-button').removeClass('shown').addClass('hidden');
 		$('#close-button').removeClass('hidden').addClass('shown');
@@ -109,4 +126,7 @@ function updateStatusMessage(data) {
 }
 
 $(document).ready(function() {
+	var form = new Admin();
+	Form.setForm(form);
+	form.init();
 });

@@ -1,17 +1,17 @@
 <? extract($_GET); ?>
 
 <div id="search-info">
-	<form id="search-form" action="javascript:void(0)" onsubmit="doSearch(this)">
+	<form id="search-form" action="javascript:void(0)">
 		<input type="hidden" name="action" value="search">
 		<label for="search_string" style="display:block">Find your <?=$type?>:</label>
 		<input type="text" name="search_string" class="form-control" style="display:inline-block; width:50%"
 			placeholder="Enter search text..." width="40">
 		<input type="submit" class="btn btn-primary">
 	</form>
-	<a href="javascript:newRecord()"><button type="button" class="btn btn-primary">New <?=ucwords($type)?></button></a>
+	<button id="new-record-button" type="button" class="btn btn-primary">New <?=ucwords($type)?></button>
 	
 	<? if($type == 'member') { ?>
-	<a href="javascript:nonMemberCheckout()"><button type="button" class="btn btn-primary">Non-Member Purchase</button></a>
+	<button id="non-member-checkout-button" type="button" class="btn btn-primary">Non-Member Purchase</button>
 	<? } ?>
 </div>
 
@@ -38,10 +38,7 @@
 				$actions['generateReceipt'] = 'Generate Receipt';
 				break;
 			case 'order':
-				unset($actions['newEntry']);
-				unset($actions['viewLog']);
-				$actions['viewItems'] = 'View Itemized';
-				$actions['generateInvoice'] = 'Generate Invoice';
+				$actions = array('updateInfo' => 'Update Info', 'generateInvoice' => 'Generate Invoice');
 				break;
 			default: break;
 		}
@@ -49,22 +46,20 @@
 		foreach($actions as $action => $title) {
 		?>
 		
-		<a href="javascript:recordAction('<?=$action?>')">
-			<button id="<?=$action?>-button" type="button" class="btn btn-primary"><?=$title?></button>
-		</a>
+		<button id="<?=$action?>-button" type="button" class="btn btn-primary record-action-button" action="<?=$action?>"><?=$title?></button>
 		
 		<? } ?>
 	</div>
 </div>
 
-<? include_once("${type}_form.php"); ?>
+<? include_once("form.php"); ?>
 
 <div id="entry-info" class="page-section record-action">
-<form id="entry-form" action="javascript:void(0)" onsubmit="submitForm(this)">
+<form id="entry-form" action="javascript:void(0)">
 	<input type="hidden" name="action" value="newEntry">
 	<input type="hidden" name="Record ID">
 	
-	<? include('date_field.php'); ?>
+	<? date_field(); ?>
 	
 	<? if($type == 'member') { ?>
 	
@@ -107,6 +102,6 @@
 <div id="record-log">
 	<ul>
 	</ul>
-	<button type="button" class="btn btn-primary" onclick="hideLog()">OK</button>
+	<button id="hide-log-button" type="button" class="btn btn-primary">OK</button>
 </div>
 </div>

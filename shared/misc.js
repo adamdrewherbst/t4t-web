@@ -70,13 +70,18 @@ function clearForm(form) {
 	$('input[type="hidden"]', form).not('[name="Site"]').val('');
 	$('input[type="radio"]', form).prop('checked', false);
 	$('input[name="Date"]', form).val(new Date().toLocaleDateString());
+	
+	if(type == 'order' && form.id == 'record-form') {
+		var $wrapper = $('#item-wrapper'), $template = $('#item-template');
+		$wrapper.empty().append($template.html());
+	}
 }
 
 function getFormData(form) {
 	var data = {};
 	$('input,select', form).each(function() {
 		var $this = $(this), name = $this.attr('name'), unselected = $this.attr('type') == 'radio' && !$this.is(':checked');
-		if(typeof name == 'string' && name.endsWith('[]')) {
+		if(String.prototype.hasOwnProperty('endsWith') && typeof name == 'string' && name.endsWith('[]')) {
 			var ind = 0, newName = '';
 			do {
 				newName = name.replace('[]', '[' + ind + ']');
@@ -98,6 +103,68 @@ function message(msg) {
 	alert(msg);
 }
 
+function processElements(root) {
+	$('div.date', root).datetimepicker({
+		format: 'M/D/YYYY',
+	});
+	$('div.time', root).datetimepicker({
+		format: 'h:mm A',
+	});
+	$('div.datetime', root).datetimepicker({
+		format: 'M/D/YYYY h:mm A',
+	});
+	$('.multiple-trigger', root).change(function(event) {
+		var $target = $(event.target), $parent = $target.closest('.multiple-template');
+		var className = $target.attr('class').split(' ')[0];
+		var templateName = $parent.attr('class').split(' ')[0];
+		if($parent.is(':last-child') && $target.val() != '') {
+			var $delete = findShallowest($parent, '.multiple-delete');
+			if($delete) $delete.removeClass('hidden');
+			var $newItem = $('#' + templateName + '-template').children().first().clone().appendTo($parent.parent());
+			processElements($newItem);
+		}
+	});
+	$('.multiple-delete', root).click(function(event) {
+		var $item = $(event.target).closest('.multiple-template');
+		$item.remove();
+	});
+	switch(type) {
+		case 'order':
+			$('.item-code', root).change(function(event) {
+				//set the item description to its title by default
+				var $target = $(event.target), $item = $target.closest('.invoice-item');
+				$item.find('.item-description').val($target.find(':selected').text());
+				//show the additional fields corresponding to the item code
+				var code = $target.find(':selected').val(), account = code.split(' ')[0];
+				code = code.replace(/ /g, '');
+				var $fields = $item.find('.invoice-additional-fields > div');
+				$fields.each(function() {
+					var $this = $(this), codes = $this.attr('accounts'), exclude = $this.attr('accounts-exclude');
+					codes = codes ? codes.split(' ') : [];
+					exclude = exclude ? exclude.split(' ') : [];
+					if(codes.indexOf(code) >= 0 || (codes.indexOf(account) >= 0 && exclude.indexOf(code) < 0)) $this.removeClass('hidden');
+					else $this.addClass('hidden');
+				});
+			});
+			break;
+		default: break;
+	}
+}
+
+function findShallowest( root, sel ) {
+	var children = root.children();
+	if( children.length ) {
+		var matching = children.filter( sel );
+		if( matching.length ) {
+			return matching.first();
+		} else {
+			return findShallowest( children, sel );
+		}
+	} else {
+		return null;
+	}
+}
+                                                                                
 $(document).ready(function() {
 	source = $('input[name=source]').val();
 	$overlay = $('#overlay');
@@ -113,12 +180,8 @@ $(document).ready(function() {
 		});
 	});
 	
-	$('div.date').datetimepicker({
-		format: 'M/D/YYYY',
-	});
-	$('div.datetime').datetimepicker({
-		format: 'M/D/YYYY h:mm A',
-	});
+	processElements('body');
+	
 	$('input[name=Date]').val(new Date().toLocaleDateString());
 
 	$('input[name="search_string"]').focus();

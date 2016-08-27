@@ -1,0 +1,59 @@
+#item-wrapper {
+	height: auto;
+	max-height: none;
+	padding: 0;
+}
+.invoice-titles {
+	padding: 10px 10px 0 10px;
+}
+.invoice-item {
+	padding: 10px;
+}
+.invoice-item:nth-child(odd) {
+	background-color: #ffffdd;
+}
+.column-1 {
+	width: 25%;
+	float: left;
+}
+.column-2 {
+	width: 55%;
+	margin-left: 20px;
+	display: inline-block;
+}
+.column-3 {
+	width: 10%;
+	margin-left: 20px;
+	display: inline-block;
+}
+.item-delete {
+	font-size: 20px;
+	margin-left: 20px;
+}
+.facilitator-person {
+	display: inline-block;
+	width: 85%;
+}
+.facilitator-delete {
+	font-size: 14px;
+	margin-left: 5px;
+}
+.invoice-additional-fields {
+	margin-top: 12px;
+}
+.invoice-additional-fields > div {
+	width: 100%;
+}
+.invoice-additional-fields > div > div {
+	display: inline-block;
+	vertical-align: top;
+}
+.invoice-additional-fields .datetime-field {
+	width: 15%;
+}
+.invoice-additional-fields .facilitator-wrapper {
+	width: 20%;
+}
+.invoice-additional-fields .facilitator-field {
+	margin-bottom: 5px;
+}

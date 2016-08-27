@@ -1,41 +1,44 @@
-<div class="invoice-item">
+<div class="invoice-item multiple-template">
 
-	<select name="item_code[]" class="form-control column-1" onchange="itemChange(event)">
+	<select name="Item Code[]" class="item-code form-control column-1 multiple-trigger">
 		<option value="" selected>--Select Item--</option>
-		<option disabled>_____________</option>
-		<option value="MBTP - P">Materials Purchase</option>
-		<option value="MBTP - MM">$100 Materials Membership</option>
-		<option value="MBTP - SM">School Membership (in excess of $100)</option>
-		<option value="MBTP - CR">Cart Refill</option>
-		<option disabled>_____________</option>
-		<option value="OE - CUS">Customized Outreach Program/Event</option>
-		<option value="OE - TT">Teacher Training (Professional Development)</option>
-		<option value="OE - WGW">What Goes Where</option>
-		<option value="OE - EV">Eco-Vehicle</option>
-		<option value="OE - RS">Reach for the Sky</option>
-		<option value="OE - URM">Ultimate Recycling Machine</option>
-		<option value="OE - BBM">Beats By Me</option>
-		<option value="OE - MR">Mileage Reimbursement</option>
-		<option disabled>_____________</option>
-		<option value="P - NASA">NASA Cart</option>
-		<option value="P - SC">STEAM Cart</option>
-		<option value="P - CP">Custom Project</option>
-		<option value="P - SL">STEAM Lab</option>
-		<option value="P - O">Other</option>
-		<option disabled>_____________</option>
-		<option value="WE - SC">Spontaneous Creations</option>
-		<option value="WE - FT">Field Trip</option>
-		<option value="WE - PP">Private Party (Birthday or Other)</option>
-		<option value="WE - TT">Teacher Training (Professional Development)</option>
-		<option value="WE - O">Other (Corporate Team-Building, etc.)</option>
-		<option disabled>_____________</option>
-		<option value="GR">Grant</option>
-		<option value="DON">Donations</option>
-		<option value="CDON">Corporate Donations</option>
+		<?
+		foreach($catalog as $account => $codes) {
+			echo "<option disabled>__________________</option>";
+			foreach($codes as $code => $item) { ?>
+				<option value="<?=$item['Item Code']?>" catalog="<?=rawurlencode(json_encode($item))?>">
+					<?=$item['Item Description']?>
+				</option>
+			<? }
+		}
+		?>
 	</select>
 		
-	<input type="text" name="item_description[]" class="form-control column-2">
+	<input type="text" name="Item Description[]" class="form-control item-description column-2">
 	
-	<a class="item-delete hidden" href="#" onclick="removeItem(this)"><i class="fa fa-times"></i></a>
+	<input type="text" name="Item Price[]" class="form-control item-price column-3">
+	
+	<a class="item-delete multiple-delete hidden" href="javascript:void(0)"><i class="fa fa-times"></i></a>
+	
+	<div class="invoice-additional-fields">
+		<div class="invoice-fields-product hidden" accounts="P MBTP" accounts-exclude="MBTP-P MBTP-MM MBTP-SM">
+			<? date_field('Fulfillment Date', 'Fulfillment Date[]'); ?>
+		</div>
+		<div class="invoice-fields-event hidden" accounts="OE WE" accounts-exclude="OE-MR">
+			<div class="facilitator-wrapper">
+				<label for="Facilitators">Facilitators</label>
+				<div class="facilitator-field-wrapper multiple-template-wrapper">
+					<? include('facilitator_field.php'); ?>
+				</div>
+			</div>
+			<? date_field('Event Date', 'Event Date[]', 'invoice-event-date'); ?>
+			<? time_field('Start Time', 'Start Time[]', 'invoice-start-time'); ?>
+			<? time_field('End Time', 'End Time[]', 'invoice-end-time'); ?>
+		</div>
+		<div class="invoice-fields-mileage hidden" accounts="OE-MR">
+			<label for="Mileage[]">Number of Miles</label>
+			<input class="item-mileage" type="number" name="Mileage[]" value="0">
+		</div>
+	</div>
 		
 </div>

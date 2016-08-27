@@ -27,8 +27,8 @@
 	<body>
 		<div id="wrapper">
 		<div id="inner-wrapper">
-		<? include_once('member_form.php'); ?>
-		<? include_once('../shared/overlay.php'); ?>
+		<? include_once('form.php'); ?>
+		<? overlay(); ?>
 		</div>
 		</div>
 	</body>
