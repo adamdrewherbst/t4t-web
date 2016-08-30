@@ -3,6 +3,8 @@ var Order = function() {
 	this.type = 'order';
 	this.title = 'Order';
 	this.scriptID = 'AKfycbwvVU0gACktGPgO5C_gt9bsGVuYZBwCEWZ9rjOfycGOmT7b-uw';
+	this.scriptActions.push('generateInvoice');
+	this.scriptActions.push('sendInvoice');
 };
 Order.prototype = Object.create(Form.prototype);
 
@@ -11,6 +13,11 @@ Order.prototype.init = function() {
 	var caller = this;
 	$('#copy-billing-button').click(function(e) {
 		caller.copyBillingToShipping();
+	});
+	$('#facilitator-field-template .multiple-template').data('deleteCallback', function($item) {
+		var $wrapper = $item.closest('.invoice-item');
+		$item.detach();
+		caller.updateFacilitatorFees($wrapper);
 	});
 };
 
@@ -59,12 +66,28 @@ Order.prototype.postDisplayRecord = function(record) {
 		$newItems = $newItems.add($item);
 		this.processElements($newItems);
 	}
+	if(record.Invoice) {
+		$('#invoice-url').val('https://docs.google.com/spreadsheets/d/' + record.Invoice + '/edit');
+	} else {
+		$('#editInvoice-button,#sendInvoice-button').attr('disabled', true);
+	}
 };
 
 Order.prototype.recordString = function(record) {
 	var str = record['Billing Organization'];
 	if(record['Billing Name']) str += ' (' + record['Billing Name'] + ')';
 	return str;
+};
+
+Order.prototype.recordAction = function(action) {
+	Form.prototype.recordAction.call(this, action);
+	switch(action) {
+		case 'editInvoice':
+			var win = window.open($('#invoice-url').val(), '_blank');
+			if(win) win.focus();
+			break;
+		default: break;
+	}
 };
 
 Order.prototype.processElements = function(root) {

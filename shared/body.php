@@ -38,7 +38,7 @@
 				$actions['generateReceipt'] = 'Generate Receipt';
 				break;
 			case 'order':
-				$actions = array('updateInfo' => 'Update Info', 'generateInvoice' => 'Generate Invoice');
+				$actions = array('updateInfo' => 'Update Info', 'generateInvoice' => 'Generate Invoice', 'editInvoice' => 'Edit Invoice', 'sendInvoice' => 'Send Invoice');
 				break;
 			default: break;
 		}

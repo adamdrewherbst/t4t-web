@@ -4,7 +4,15 @@
 		<option value="" selected>--Select Item--</option>
 		<?
 		foreach($catalog as $account => $codes) {
-			echo "<option disabled>__________________</option>";
+			?>
+			<option disabled></option>
+			<option disabled>
+				<span style="font-weight: bold; font-style: italic; text-decoration: underline;">
+					<?=$account?>
+				</span>
+			</option>
+			<option disabled></option>
+			<?
 			foreach($codes as $code => $item) { ?>
 				<option value="<?=$item['Item Code']?>" catalog="<?=rawurlencode(json_encode($item))?>">
 					<?=$item['Item Description']?>

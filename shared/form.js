@@ -1,4 +1,5 @@
 var Form = function() {
+	this.scriptActions = [];
 };
 
 Form.currentForm = null;
@@ -242,8 +243,17 @@ Form.prototype.processElements = function(root) {
 	});
 	$('.multiple-delete', root).click(function(event) {
 		var $item = $(event.target).closest('.multiple-template');
+		var $template = caller.findMultipleTemplate($item);
+		var callback = $template.data('deleteCallback');
+		if(callback) callback($item);
 		$item.remove();
 	});
+};
+
+Form.prototype.findMultipleTemplate = function($el) {
+	var $item = $el.closest('.multiple-template'), className = $item.attr('class').split(' ')[0];
+	var $wrapper = $('#' + className + '-template');
+	return $wrapper.find('.multiple-template');
 };
 
 Form.findShallowest = function(root, sel) {

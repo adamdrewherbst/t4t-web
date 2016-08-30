@@ -3,6 +3,8 @@
 	
 	<input type="hidden" name="action" value="updateInfo">
 	<input type="hidden" name="Record ID">
+	
+	<input type="hidden" id="invoice-url">
 
 	<? site_field(); ?>
 	<? date_field(); ?>
@@ -26,7 +28,7 @@
 	$catalog = array();
 	foreach($values as $ind => $row) {
 		if($ind == 0) continue;
-		$account = $row['Account ID'] ?: $account;
+		$account = $row['Account Description'] ?: $account;
 		if(!$account) continue;
 		if(!isset($catalog[$account])) $catalog[$account] = array();
 		if($row['Item Code']) $catalog[$account][$row['Item Code']] = $row;

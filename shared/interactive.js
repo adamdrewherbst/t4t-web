@@ -34,6 +34,12 @@ Form.prototype.displaySearchResults = function(records) {
 	this.showSection('search-results');
 };
 
+Form.prototype.updateRecordDisplay = function(record) {
+	var id = record['Record ID'], idStr = 'record-' + id;
+	var json = encodeURIComponent(JSON.stringify(record));
+	$('#result-info input[name="'+idStr+'"]').val(json);
+};
+
 Form.prototype.showSection = function(id) {
 	$('.page-section').hide();
 	$('#' + id).show();
@@ -96,6 +102,7 @@ Form.prototype.recordAction = function(action) {
 			}
 		});
 	}
+	var handled = true;
 	switch(action) {
 		case 'newEntry': sectionId = 'entry-info'; break;
 		case 'updateInfo': sectionId = 'record-info'; break;
@@ -103,8 +110,10 @@ Form.prototype.recordAction = function(action) {
 		case 'generateReceipt': this.generateReceipt();
 		case 'sendReceipt': this.sendReceipt();
 		case 'viewLog': this.viewLog();
-		case 'generateInvoice': this.generateInvoice();
-		default: break;
+		default: handled = false; break;
+	}
+	if(!handled && this.scriptActions.indexOf(action) >= 0) {
+		this.doScriptAction(action);
 	}
 	if(sectionId) {
 		$('.record-action').hide();
@@ -114,6 +123,31 @@ Form.prototype.recordAction = function(action) {
 		window.location.hash = '';
 		window.location.hash = 'result-actions';
 	}
+};
+
+Form.prototype.doScriptAction = function(action) {
+	var id = $('input[name="Record ID"]').val(), caller = this;
+	this.callScript({
+		data: {
+			action: action,
+			'Record ID': id,
+		},
+		success: function(data) {
+			if(!data.success) {
+				alert('Action could not be completed');
+			} else {
+				alert('Action completed');
+				if(data.records) {
+					var selected = $('#result-list input:checked').val();
+					for(var i = 0; i < data.records.length; i++) {
+						caller.updateRecordDisplay(data.records[i]);
+						var id = data.records[i]['Record ID'];
+						if(id == selected) caller.selectRecord(id);
+					}
+				}
+			}
+		},
+	});
 };
 
 Form.prototype.newRecord = function() {
