@@ -221,13 +221,33 @@ Form.prototype.message = function(msg) {
 };
 
 Form.prototype.processElements = function(root) {
-	$('div.date,div.time,dive.datetime', root).each(function() {
+	$('div.date,div.time,div.datetime', root).each(function() {
 		var $this = $(this);
 		$this.datetimepicker({
 			format: $this.hasClass('date') ? Form.DATE_FORMAT :
 					$this.hasClass('time') ? Form.TIME_FORMAT :
-					Form.DATE_FORMAT + ' ' + FORM.TIME_FORMAT,
+					Form.DATE_FORMAT + ' ' + Form.TIME_FORMAT,
 		})
+		$this.on('dp.show', function() {
+			var datepicker = $('body').find('.bootstrap-datetimepicker-widget:last').detach().appendTo('body');
+			if (datepicker.hasClass('bottom')) {
+				var top = $(this).offset().top + $(this).outerHeight();
+				var left = $(this).offset().left;
+				datepicker.css({
+					'top': top + 'px',
+					'bottom': 'auto',
+					'left': left + 'px'
+				});
+			} else if (datepicker.hasClass('top')) {
+				var top = $(this).offset().top - datepicker.outerHeight();
+				var left = $(this).offset().left;
+				datepicker.css({
+					'top': top + 'px',
+					'bottom': 'auto',
+					'left': left + 'px'
+				});
+			}
+		});
 	});
 	var caller = this;
 	$('.multiple-trigger', root).change(function(event) {

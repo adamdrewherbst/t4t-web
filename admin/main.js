@@ -14,6 +14,20 @@ Admin.prototype.init = function() {
 	});
 };
 
+Admin.prototype.processElements = function(root) {
+	Form.prototype.processElements.call(this, root);
+	$('div.datetime', root).each(function(i, el) {
+		var picker = $(el).data('DateTimePicker');
+		console.log('picker for');
+		console.info(el);
+		console.info(picker);
+		if(picker) {
+			console.log('setting side by side');
+			picker.sideBySide(true);
+		}
+	});
+};
+
 Admin.prototype.submitForm = function(form) {
 
 	if(!$(form).valid()) return;
@@ -22,8 +36,8 @@ Admin.prototype.submitForm = function(form) {
 	var data = this.getFormData(form);
 	data.open = isOpen;
 	if(isOpen) {
-		data.start = new Date(data.start).getTime();
-		data.end = new Date(data.end).getTime();
+		data.start = moment(data.start, Form.DATE_FORMAT + ' ' + Form.TIME_FORMAT).valueOf();
+		data.end = moment(data.end, Form.DATE_FORMAT + ' ' + Form.TIME_FORMAT).valueOf();
 	}
 	console.log('updating:');
 	console.info(data);
@@ -41,6 +55,7 @@ Admin.prototype.updateStatus = function(data) {
 		dataType: 'json',
 		data: data,
 		success: function(data) {
+			console.info(data);
 			if(data.success) {
 				caller.updateStatusMessage(data.fields);
 				caller.togglePopups(false);
@@ -78,12 +93,12 @@ Admin.prototype.togglePopup = function(id, show) {
 		this.clearForm(id + '-form');
 		
 		if(id == 'open') {
-			var today = Date.now(), start = moment(today - today%300000 + 300000);
+			var today = Date.now(), start = moment(today - today%300000);
 			var startStr = start.format('M/D/YYYY h:mm A');
 			$('#open-form input[name=start]').val(startStr);
 			var end = moment(start.valueOf() + 3600000);
 			var endStr = end.format('M/D/YYYY h:mm A');
-			$('#' + id + '-form input[name=end]').val(endStr);
+			$('#open-form input[name=end]').val(endStr);
 		}
 	
 		$('#' + id + '-wrapper').show();

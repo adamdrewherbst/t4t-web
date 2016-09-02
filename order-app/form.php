@@ -63,25 +63,25 @@
 	<p>
 	
 	<label for="Billing Organization">Organization</label>
-	<input type="text" class="form-control" name="Billing Organization" placeholder="Your organization..." required>
+	<input type="text" class="form-control" name="Billing Organization" placeholder="Your organization...">
 	<label for="Billing Address">Street Address</label>
-	<input type="text" class="form-control" name="Billing Address" placeholder="Street address..." required>
+	<input type="text" class="form-control" name="Billing Address" placeholder="Street address...">
 	<label for="Billing City">City</label>
-	<input type="text" class="form-control" name="Billing City" placeholder="City..." required>
+	<input type="text" class="form-control" name="Billing City" placeholder="City...">
 	<label for="Billing State">State</label>
 	<select class="form-control" name="Billing State">
 		<? US_states(); ?>
 	</select>
 	<label for="Billing ZIP">ZIP Code</label>
-	<input type="zipcodeUS" class="form-control" name="Billing ZIP" placeholder="ZIP Code..." required>
+	<input type="zipcodeUS" class="form-control" name="Billing ZIP" placeholder="ZIP Code...">
 	<label for="Billing Name">Contact Name</label>
 	<input type="text" class="form-control" name="Billing Name" placeholder="Name of primary contact..." required>
 	<label for="Billing Title">Contact Title</label>
 	<input type="text" class="form-control" name="Billing Title" placeholder="eg. Teacher, Artist...">
 	<label for="Phone Number">Phone Number</label>
-	<input type="phoneUS" class="form-control" name="Billing Phone Number" placeholder="Phone number...">
+	<input type="phoneUS" class="form-control" name="Billing Phone Number" placeholder="Phone number..." required>
 	<label for="Email">Email Address</label>
-	<input type="email" class="form-control" name="Billing Email" placeholder="Email...">
+	<input type="email" class="form-control" name="Billing Email" placeholder="Email..." required>
 
 	<p><p>
 	<label>SHIPPING INFORMATION</label>
@@ -89,19 +89,19 @@
 	<p>
 
 	<label for="Shipping Organization">Organization</label>
-	<input type="text" class="form-control" name="Shipping Organization" placeholder="Your organization..." required>
+	<input type="text" class="form-control" name="Shipping Organization" placeholder="Your organization...">
 	<label for="Shipping Address">Street Address</label>
-	<input type="text" class="form-control" name="Shipping Address" placeholder="Street address..." required>
+	<input type="text" class="form-control" name="Shipping Address" placeholder="Street address...">
 	<label for="Shipping City">City</label>
-	<input type="text" class="form-control" name="Shipping City" placeholder="City..." required>
+	<input type="text" class="form-control" name="Shipping City" placeholder="City...">
 	<label for="Shipping State">State</label>
 	<select class="form-control" name="Shipping State">
 		<? US_states(); ?>
 	</select>
 	<label for="Shipping ZIP">ZIP Code</label>
-	<input type="zipcodeUS" class="form-control" name="Shipping ZIP" placeholder="ZIP Code..." required>
+	<input type="zipcodeUS" class="form-control" name="Shipping ZIP" placeholder="ZIP Code...">
 	<label for="Shipping Name">Contact Name</label>
-	<input type="text" class="form-control" name="Shipping Name" placeholder="Name of primary contact..." required>
+	<input type="text" class="form-control" name="Shipping Name" placeholder="Name of primary contact...">
 	<label for="Shipping Title">Contact Title</label>
 	<input type="text" class="form-control" name="Shipping Title" placeholder="eg. Teacher, Artist...">
 	<label for="Phone Number">Phone Number</label>

@@ -1,14 +1,19 @@
 <?
 
-function date_field($title = 'Date', $name = 'Date', $classes = '') {
+function datetime_field($type, $title, $name, $classes) {
+	switch($type) {
+		case 'date': $icon = 'calendar'; break;
+		case 'time': $icon = 'time'; break;
+		default: $icon = 'calendar'; break;
+	}
 	?>
-	<div class="datetime-field date-field <?=$classes?>">
+	<div class="datetime-field <?=$type=='datetime' ? '' : "$type-field"?> <?=$classes?>">
 		<label for="<?=$name?>"><?=$title?></label>
-		<div class="form-group">
-			<div class='input-group date'>
+		<div class="form-group" style="position:relative">
+			<div class='input-group <?=$type?>'>
 				<input type='text' class="form-control" name="<?=$name?>" />
 				<span class="input-group-addon">
-					<span class="glyphicon glyphicon-calendar"></span>
+					<span class="glyphicon glyphicon-<?=$icon?>"></span>
 				</span>
 			</div>
 		</div>
@@ -16,20 +21,12 @@ function date_field($title = 'Date', $name = 'Date', $classes = '') {
 	<?
 }
 
+function date_field($title = 'Date', $name = 'Date', $classes = '') {
+	datetime_field('date', $title, $name, $classes);
+}
+
 function time_field($title = 'Time', $name = 'Time', $classes = '') {
-	?>
-	<div class="datetime-field time-field <?=$classes?>">
-		<label for="<?=$name?>"><?=$title?></label>
-		<div class="form-group">
-			<div class='input-group time'>
-				<input type='text' class="form-control" name="<?=$name?>" />
-				<span class="input-group-addon">
-					<span class="glyphicon glyphicon-time"></span>
-				</span>
-			</div>
-		</div>
-	</div>
-	<?
+	datetime_field('time', $title, $name, $classes);
 }
 
 function overlay() {

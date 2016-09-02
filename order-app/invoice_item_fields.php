@@ -1,5 +1,8 @@
 <div class="invoice-item multiple-template">
 
+	<input type="hidden" name="Item ID[]" value="">
+	<input type="hidden" name="Calendar Event ID[]" value="">
+
 	<select name="Item Code[]" class="item-code form-control column-1 multiple-trigger">
 		<option value="" selected>--Select Item--</option>
 		<?

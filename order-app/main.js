@@ -33,10 +33,12 @@ Order.prototype.postDisplayRecord = function(record) {
 	if(record.items) {
 		var $wrapper = $('.invoice-item-wrapper').empty(), $template = $('#invoice-item-template > div'), $item, $newItems = $();
 		for(var i = 0; i < record.items.length; i++) {
-			$item = $template.clone().appendTo($wrapper), code = record.items[i]['Item Code'].replace(/ /g, ''), account = code.split('-')[0];
-			$item.find('.item-code').val(record.items[i]['Item Code']);
-			$item.find('.item-description').val(record.items[i]['Item Description']);
-			$item.find('.item-price').val(record.items[i]['Item Price']);
+			var item = record.items[i];
+			$item = $template.clone().appendTo($wrapper), code = item['Item Code'].replace(/ /g, ''), account = code.split('-')[0];
+			for(var field in item) if(item.hasOwnProperty(field)) {
+				if(field == 'Facilitators') continue;
+				$item.find('[name="' + field + '[]"]').val(item[field]);
+			}
 			$item.find('.item-delete').removeClass('hidden');
 			//additional fields
 			$item.find('.invoice-additional-fields > div').filter(function() {
@@ -45,13 +47,8 @@ Order.prototype.postDisplayRecord = function(record) {
 				if(exclude) exclude = exclude.split(' ');
 				return include.indexOf(code) >= 0 || (include.indexOf(account) >= 0 && exclude.indexOf(code) < 0);
 			}).removeClass('hidden');
-			$item.find('input[name="Fulfillment Date[]"]').val(record.items[i]['Fulfillment Date']);
-			$item.find('input[name="Event Date[]"]').val(record.items[i]['Event Date']);
-			$item.find('input[name="Start Time[]"]').val(record.items[i]['Start Time']);
-			$item.find('input[name="End Time[]"]').val(record.items[i]['End Time']);
-			$item.find('input[name="Mileage[]"]').val(record.items[i]['Mileage']);
-			if(record.items[i]['Facilitators'].length > 0) {
-				var facilitators = record.items[i]['Facilitators'].split(', '), $wrap = $item.find('.facilitator-field-wrapper'),
+			if(item['Facilitators'].length > 0) {
+				var facilitators = item['Facilitators'].split(', '), $wrap = $item.find('.facilitator-field-wrapper'),
 					$temp = $('#facilitator-field-template > .multiple-template');
 				for(var j = facilitators.length-1; j >= 0; j--) {
 					var $copy = $temp.clone();
@@ -130,8 +127,19 @@ Order.prototype.processElements = function(root) {
 		caller.updateFacilitatorFees(this);
 	});
 	$('.invoice-event-date,.invoice-start-time,.invoice-end-time', root).each(function() {
-		var element = this;
-		$(element).on('dp.change', function(event) {
+		var element = this, $element = $(this);
+		$element.on('dp.change', function(event) {
+			var value = $element.find('input').val();
+			if($element.hasClass('invoice-start-time')) {
+				var $end = $element.closest('.invoice-item').find('.invoice-end-time input');
+				var current = $end.val();
+				if(current) {
+					var start = moment(value, Form.TIME_FORMAT).valueOf(),
+						end = moment(current, Form.TIME_FORMAT).valueOf();
+					if(start > end) $end.val(value);
+				}
+				else $end.val(value);
+			}
 			caller.updateFacilitatorFees(element);
 		});
 	});
